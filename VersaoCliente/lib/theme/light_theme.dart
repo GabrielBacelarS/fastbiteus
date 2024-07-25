@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:stackfood_multivendor/util/app_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +7,7 @@ ThemeData light = ThemeData(
   fontFamily: AppConstants.fontFamily,
   primaryColor: const Color(0xFFFF7918),
   secondaryHeaderColor: const Color(0x9BFF7918),
-  disabledColor: const Color(0xFFBABFC4),
+  disabledColor: Color(0xFF060606),
   brightness: Brightness.light,
   hintColor: const Color(0xFF9B9B9B),
   cardColor: Colors.white,

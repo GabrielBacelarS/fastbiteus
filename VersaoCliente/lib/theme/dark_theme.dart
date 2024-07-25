@@ -5,7 +5,7 @@ ThemeData dark = ThemeData(
   fontFamily: AppConstants.fontFamily,
   primaryColor: const Color(0xFFFF7918),
   secondaryHeaderColor: const Color(0x9BFF7918),
-  disabledColor: const Color(0xffa2a7ad),
+  disabledColor: Color.fromARGB(255, 249, 250, 251),
   brightness: Brightness.dark,
   hintColor: const Color(0xFFbebebe),
   cardColor: const Color(0xFF141313),
