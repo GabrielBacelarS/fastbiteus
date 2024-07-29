@@ -1,4 +1,4 @@
-import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+//import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class BluetoothPrinter {
   int? id;
@@ -9,7 +9,7 @@ class BluetoothPrinter {
   String? productId;
   bool isBle;
 
-  PrinterType typePrinter;
+  //PrinterType typePrinter;
   bool? state;
 
   BluetoothPrinter({
@@ -19,7 +19,7 @@ class BluetoothPrinter {
     this.state,
     this.vendorId,
     this.productId,
-    this.typePrinter = PrinterType.bluetooth,
+   //this.typePrinter = PrinterType.bluetooth,
     this.isBle = false,
   });
 }
