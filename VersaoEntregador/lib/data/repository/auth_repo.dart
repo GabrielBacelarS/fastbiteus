@@ -84,10 +84,20 @@ class AuthRepo {
           criticalAlert: false, provisional: false, sound: true,
         );
         if(settings.authorizationStatus == AuthorizationStatus.authorized) {
-          deviceToken = await _saveDeviceToken();
+          try {
+             deviceToken = await _saveDeviceToken();
+          } catch (e) {
+            
+          }
+         
         }
       }else {
-        deviceToken = await _saveDeviceToken();
+        try {
+            deviceToken = await _saveDeviceToken();
+        } catch (e) {
+          
+        }
+      
       }
       if(!GetPlatform.isWeb) {
         FirebaseMessaging.instance.subscribeToTopic(AppConstants.topic);
@@ -101,7 +111,9 @@ class AuthRepo {
   Future<String?> _saveDeviceToken() async {
     String? deviceToken = '';
     if(!GetPlatform.isWeb) {
-      deviceToken = (await FirebaseMessaging.instance.getToken())!;
+      FirebaseMessaging.instance.requestPermission();
+      FirebaseMessaging _firebase = FirebaseMessaging.instance;
+      deviceToken = (await _firebase.getToken())!;
     }
     customPrint('--------Device Token---------- $deviceToken');
     return deviceToken;

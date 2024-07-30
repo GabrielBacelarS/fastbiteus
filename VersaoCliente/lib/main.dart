@@ -41,9 +41,20 @@ Future<void> main() async {
   DeepLinkBody? linkBody;
 
   // Inicialização do Firebase
-  await Firebase.initializeApp(
+  try {
+      await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  } on FirebaseException catch (e) {
+    if (e.code == 'duplicate-app') {
+      // Firebase app already initialized, you can safely ignore this error
+      print('Firebase app already initialized.');
+    } else {
+      // Handle other errors
+      rethrow;
+    }
+  }
+
 
   Map<String, Map<String, String>> languages = await di.init();
 

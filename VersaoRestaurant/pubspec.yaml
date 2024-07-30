@@ -1,7 +1,7 @@
 name: efood_multivendor_restaurant
 description: An application for multivendor ecommerce restaurant.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.4+4
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -36,8 +36,8 @@ dependencies:
   google_maps_flutter: ^2.1.1
   geolocator: ^9.0.2
   card_swiper: ^2.0.4
-  flutter_pos_printer_platform: ^1.1.0
-  esc_pos_utils: ^1.1.0
+  #flutter_pos_printer_platform: ^1.1.0
+  #esc_pos_utils: ^1.1.0
   screenshot: ^2.1.0
   image: ^3.0.8
   modal_bottom_sheet: ^2.1.2

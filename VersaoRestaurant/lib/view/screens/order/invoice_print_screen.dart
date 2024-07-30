@@ -15,10 +15,10 @@ import 'package:efood_multivendor_restaurant/helper/date_converter.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/styles.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_button.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+//import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+//import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as i;
 import 'package:screenshot/screenshot.dart';
@@ -33,13 +33,13 @@ class InVoicePrintScreen extends StatefulWidget {
 }
 
 class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
-  PrinterType _defaultPrinterType = PrinterType.bluetooth;
+  //PrinterType _defaultPrinterType = PrinterType.bluetooth;
   final bool _isBle = GetPlatform.isIOS;
-  final PrinterManager _printerManager = PrinterManager.instance;
+ // final PrinterManager _printerManager = PrinterManager.instance;
   final List<BluetoothPrinter> _devices = <BluetoothPrinter>[];
-  StreamSubscription<PrinterDevice>? _subscription;
-  StreamSubscription<BTStatus>? _subscriptionBtStatus;
-  BTStatus _currentStatus = BTStatus.none;
+  //StreamSubscription<PrinterDevice>? _subscription;
+  //StreamSubscription<BTStatus>? _subscriptionBtStatus;
+  //BTStatus _currentStatus = BTStatus.none;
   List<int>? pendingTask;
   String _ipAddress = '';
   String _port = '9100';
@@ -51,29 +51,29 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
 
   @override
   void initState() {
-    if (Platform.isWindows) _defaultPrinterType = PrinterType.usb;
+    //if (Platform.isWindows) _defaultPrinterType = PrinterType.usb;
     super.initState();
     _portController.text = _port;
     _scan();
 
     // subscription to listen change status of bluetooth connection
-    _subscriptionBtStatus = PrinterManager.instance.stateBluetooth.listen((status) {
-      log(' ----------------- status bt $status ------------------ ');
-      _currentStatus = status;
+    //_subscriptionBtStatus = PrinterManager.instance.stateBluetooth.listen((status) {
+    //  log(' ----------------- status bt $status ------------------ ');
+    //  _currentStatus = status;
 
-      if (status == BTStatus.connected && pendingTask != null) {
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: pendingTask!);
-          pendingTask = null;
-        });
-      }
-    });
+     // if (status == BTStatus.connected && pendingTask != null) {
+     //   Future.delayed(const Duration(milliseconds: 1000), () {
+      //    PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: pendingTask!);
+       //   pendingTask = null;
+   //     });
+   //   }
+   // });
   }
 
   @override
   void dispose() {
-    _subscription?.cancel();
-    _subscriptionBtStatus?.cancel();
+   // _subscription?.cancel();
+   // _subscriptionBtStatus?.cancel();
     _portController.dispose();
     _ipController.dispose();
     super.dispose();
@@ -82,7 +82,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
   // method to scan devices according PrinterType
   void _scan() {
     _devices.clear();
-    _subscription = _printerManager.discovery(type: _defaultPrinterType, isBle: _isBle).listen((device) {
+  /*  _subscription = _printerManager.discovery(type: _defaultPrinterType, isBle: _isBle).listen((device) {
       _devices.add(BluetoothPrinter(
         deviceName: device.name,
         address: device.address,
@@ -92,11 +92,11 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
         typePrinter: _defaultPrinterType,
       ));
       setState(() {});
-    });
+    });*/
   }
 
   void _setPort(String value) {
-    if (value.isEmpty) value = '9100';
+   /* if (value.isEmpty) value = '9100';
     _port = value;
     var device = BluetoothPrinter(
       deviceName: value,
@@ -104,12 +104,12 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
       port: _port,
       typePrinter: PrinterType.network,
       state: false,
-    );
-    _selectDevice(device);
+    );*/
+   // _selectDevice(device);
   }
 
   void _setIpAddress(String value) {
-    _ipAddress = value;
+   /* _ipAddress = value;
     BluetoothPrinter device = BluetoothPrinter(
       deviceName: value,
       address: _ipAddress,
@@ -117,14 +117,14 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
       typePrinter: PrinterType.network,
       state: false,
     );
-    _selectDevice(device);
+    _selectDevice(device);*/
   }
 
   void _selectDevice(BluetoothPrinter device) async {
     if (_selectedPrinter != null) {
-      if ((device.address != _selectedPrinter!.address) || (device.typePrinter == PrinterType.usb && _selectedPrinter!.vendorId != device.vendorId)) {
-        await PrinterManager.instance.disconnect(type: _selectedPrinter!.typePrinter);
-      }
+    //  if ((device.address != _selectedPrinter!.address) || (device.typePrinter == PrinterType.usb && _selectedPrinter!.vendorId != device.vendorId)) {
+       // await PrinterManager.instance.disconnect(type: _selectedPrinter!.typePrinter);
+    //  }
     }
 
     _selectedPrinter = device;
@@ -133,15 +133,15 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
 
   Future _printReceipt(i.Image image) async {
     i.Image resized = i.copyResize(image, width: _paper80MM ? 500 : 365);
-    CapabilityProfile profile = await CapabilityProfile.load();
-    Generator generator = Generator(_paper80MM ? PaperSize.mm80 : PaperSize.mm58, profile);
+    //CapabilityProfile profile = await CapabilityProfile.load();
+    //Generator generator = Generator(_paper80MM ? PaperSize.mm80 : PaperSize.mm58, profile);
     List<int> bytes = [];
-    bytes += generator.image(resized);
-    _printEscPos(bytes, generator);
+    //bytes += generator.image(resized);
+   // _printEscPos(bytes, generator);
   }
 
   /// print ticket
-  void _printEscPos(List<int> bytes, Generator generator) async {
+  /*void _printEscPos(List<int> bytes, Generator generator) async {
     if (_selectedPrinter == null) return;
     var bluetoothPrinter = _selectedPrinter!;
 
@@ -192,7 +192,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
     } else {
       _printerManager.send(type: bluetoothPrinter.typePrinter, bytes: bytes);
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -249,29 +249,29 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
 
                       Text('${_devices[index].deviceName}'),
 
-                      Platform.isAndroid && _defaultPrinterType == PrinterType.usb ? const SizedBox() : Visibility(
-                        visible: !Platform.isWindows,
-                        child: Text("${_devices[index].address}"),
-                      ),
+                    //  Platform.isAndroid && _defaultPrinterType == PrinterType.usb ? const SizedBox() : Visibility(
+                  //      visible: !Platform.isWindows,
+                   //     child: Text("${_devices[index].address}"),
+                   //   ),
 
                       index != _devices.length-1 ? Divider(color: Theme.of(context).disabledColor) : const SizedBox(),
 
                     ]),
 
-                    (_selectedPrinter != null && ((_devices[index].typePrinter == PrinterType.usb && Platform.isWindows
-                        ? _devices[index].deviceName == _selectedPrinter!.deviceName
-                        : _devices[index].vendorId != null && _selectedPrinter!.vendorId == _devices[index].vendorId) ||
-                        (_devices[index].address != null && _selectedPrinter!.address == _devices[index].address))) ? const Positioned(
-                      top: 5, right: 5,
-                      child: Icon(Icons.check, color: Colors.green),
-                    ) : const SizedBox(),
+                  //  (_selectedPrinter != null && ((_devices[index].typePrinter == PrinterType.usb && Platform.isWindows
+                   //     ? _devices[index].deviceName == _selectedPrinter!.deviceName
+                   //     : _devices[index].vendorId != null && _selectedPrinter!.vendorId == _devices[index].vendorId) ||
+                   //     (_devices[index].address != null && _selectedPrinter!.address == _devices[index].address))) ? const Positioned(
+                   //   top: 5, right: 5,
+                   //   child: Icon(Icons.check, color: Colors.green),
+                   // ) : const SizedBox(),
 
                   ]),
                 ),
               );
             },
           ),
-          Visibility(
+         /* Visibility(
             visible: _defaultPrinterType == PrinterType.network && Platform.isWindows,
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -285,8 +285,8 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                 onChanged: _setIpAddress,
               ),
             ),
-          ),
-          Visibility(
+          ),*/
+          /*Visibility(
             visible: _defaultPrinterType == PrinterType.network && Platform.isWindows,
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -318,7 +318,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                 ),
               ),
             ),
-          )
+          )*/
         ],
       ),
     ) : InvoiceDialog(

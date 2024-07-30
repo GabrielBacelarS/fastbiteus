@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+//import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 
 class PosPrintScreen extends StatefulWidget {
@@ -62,37 +62,37 @@ class PosPrintScreenState extends State<PosPrintScreen> {
   Future<List<int>> getGraphicsTicket() async {
     List<int> bytes = [];
 
-    CapabilityProfile profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm80, profile);
+   // CapabilityProfile profile = await CapabilityProfile.load();
+    //final generator = Generator(PaperSize.mm80, profile);
 
     // Print QR Code using native function
-    bytes += generator.qrcode('example.com');
+   // bytes += generator.qrcode('example.com');
 
-    bytes += generator.hr();
+    //bytes += generator.hr();
 
     // Print Barcode using native function
     final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
-    bytes += generator.barcode(Barcode.upcA(barData));
+    //bytes += generator.barcode(Barcode.upcA(barData));
 
-    bytes += generator.cut();
+    //bytes += generator.cut();
 
     return bytes;
   }
 
   Future<List<int>> getTicket() async {
     List<int> bytes = [];
-    CapabilityProfile profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm80, profile);
+   // CapabilityProfile profile = await CapabilityProfile.load();
+   // final generator = Generator(PaperSize.mm80, profile);
 
-    bytes += generator.text("Demo Shop",
-        styles: const PosStyles(
-          align: PosAlign.center,
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
-        ),
-        linesAfter: 1);
+    //bytes += generator.text("Demo Shop",
+    //    styles: const PosStyles(
+    //      align: PosAlign.center,
+    //      height: PosTextSize.size2,
+    //      width: PosTextSize.size2,
+     //   ),
+      //  linesAfter: 1);
 
-    bytes += generator.text(
+   /* bytes += generator.text(
         "18th Main Road, 2nd Phase, J. P. Nagar, Bengaluru, Karnataka 560078",
         styles: const PosStyles(align: PosAlign.center));
     bytes += generator.text('Tel: +919591708470',
@@ -227,7 +227,7 @@ class PosPrintScreenState extends State<PosPrintScreen> {
     bytes += generator.text(
         'Note: Goods once sold will not be taken back or exchanged.',
         styles: const PosStyles(align: PosAlign.center, bold: false));
-    bytes += generator.cut();
+    bytes += generator.cut();*/
     return bytes;
   }
 
