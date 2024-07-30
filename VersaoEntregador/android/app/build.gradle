@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fastbiteus_delivery"
+        applicationId "com.fastbiteusfooddeliverymanAppAndroid"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode

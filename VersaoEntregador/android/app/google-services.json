@@ -9,7 +9,26 @@
       "client_info": {
         "mobilesdk_app_id": "1:716098796396:android:ee31585d5b07bcb173d149",
         "android_client_info": {
-          "package_name": "com.fastbiteus_delivery"
+          "package_name": ""
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXdQTfHLWrrJLYm2IDcMc-JGKAJ1kC7iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716098796396:android:98159a2e470dfdb973d149",
+        "android_client_info": {
+          "package_name": "com.fastbiteus_restaurant"
         }
       },
       "oauth_client": [],
@@ -29,6 +48,44 @@
         "mobilesdk_app_id": "1:716098796396:android:5439a7db36328d7e73d149",
         "android_client_info": {
           "package_name": "com.fastbiteus_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXdQTfHLWrrJLYm2IDcMc-JGKAJ1kC7iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716098796396:android:1d745f44a707240b73d149",
+        "android_client_info": {
+          "package_name": "com.fastbiteusfooddeliverymanAppAndroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXdQTfHLWrrJLYm2IDcMc-JGKAJ1kC7iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716098796396:android:b1765752d715b97773d149",
+        "android_client_info": {
+          "package_name": "com.ios"
         }
       },
       "oauth_client": [],

@@ -1,4 +1,4 @@
-package com.fastbiteus_delivery
+package com.fastbiteusfooddeliverymanAppAndroid
 
 import android.app.Activity
 import android.app.Application
