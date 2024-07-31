@@ -5,7 +5,10 @@ class ProductModel {
   List<Product>? _products;
 
   ProductModel(
-      {int? totalSize, String? limit, String? offset, List<Product>? products}) {
+      {int? totalSize,
+      String? limit,
+      String? offset,
+      List<Product>? products}) {
     _totalSize = totalSize;
     _limit = limit;
     _offset = offset;
@@ -73,44 +76,47 @@ class Product {
   List<Tag>? tags;
   int? recommendedStatus;
   int? maxOrderQuantity;
+  String? stockType;
 
-  Product(
-      {this.id,
-        this.name,
-        this.description,
-        this.image,
-        this.categoryId,
-        this.categoryIds,
-        this.variations,
-        this.addOns,
-        this.price,
-        this.tax,
-        this.discount,
-        this.discountType,
-        this.availableTimeStarts,
-        this.availableTimeEnds,
-        this.setMenu,
-        this.status,
-        this.restaurantId,
-        this.createdAt,
-        this.updatedAt,
-        this.restaurantName,
-        this.restaurantDiscount,
-        this.restaurantOpeningTime,
-        this.restaurantClosingTime,
-        this.scheduleOrder,
-        this.avgRating,
-        this.ratingCount,
-        this.veg,
-        this.translations,
-        this.tags,
-        this.recommendedStatus,
-        this.maxOrderQuantity,
-      });
+  Product({
+    this.id,
+    this.name,
+    this.description,
+    this.image,
+    this.categoryId,
+    this.categoryIds,
+    this.variations,
+    this.addOns,
+    this.price,
+    this.tax,
+    this.discount,
+    this.discountType,
+    this.availableTimeStarts,
+    this.availableTimeEnds,
+    this.setMenu,
+    this.status,
+    this.restaurantId,
+    this.createdAt,
+    this.updatedAt,
+    this.restaurantName,
+    this.restaurantDiscount,
+    this.restaurantOpeningTime,
+    this.restaurantClosingTime,
+    this.scheduleOrder,
+    this.avgRating,
+    this.ratingCount,
+    this.veg,
+    this.translations,
+    this.tags,
+    this.recommendedStatus,
+    this.maxOrderQuantity,
+    this.stockType, // Nova propriedade no construtor
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    stockType = json['stock_type'];
     description = json['description'];
     image = json['image'];
     categoryId = json['category_id'];
@@ -122,7 +128,7 @@ class Product {
     }
     if (json['variations'] != null && json['variations'].isNotEmpty) {
       variations = [];
-      if(json['variations'][0]['values'] != null) {
+      if (json['variations'][0]['values'] != null) {
         json['variations'].forEach((v) {
           variations!.add(Variation.fromJson(v));
         });
@@ -142,6 +148,7 @@ class Product {
     availableTimeEnds = json['available_time_ends'];
     setMenu = json['set_menu'];
     status = json['status'];
+    stockType = json['stock_type'];
     restaurantId = json['restaurant_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -187,6 +194,7 @@ class Product {
     }
     data['price'] = price;
     data['tax'] = tax;
+    data['stock_type'] = stockType;
     data['discount'] = discount;
     data['discount_type'] = discountType;
     data['available_time_starts'] = availableTimeStarts;
@@ -210,6 +218,8 @@ class Product {
       data['tags'] = tags!.map((v) => v.toJson()).toList();
     }
     data['maximum_cart_quantity'] = maxOrderQuantity;
+    data['stock_type'] = stockType; // Nova propriedade na serialização
+
     return data;
   }
 }
@@ -238,7 +248,13 @@ class Variation {
   String? required;
   List<VariationOption>? variationValues;
 
-  Variation({this.name, this.type, this.min, this.max, this.required, this.variationValues});
+  Variation(
+      {this.name,
+      this.type,
+      this.min,
+      this.max,
+      this.required,
+      this.variationValues});
 
   Variation.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -260,6 +276,7 @@ class Variation {
     data['type'] = type;
     data['min'] = min;
     data['max'] = max;
+    data['stock_type'];
     data['required'] = required;
     if (variationValues != null) {
       data['values'] = variationValues!.map((v) => v.toJson()).toList();
@@ -384,6 +401,7 @@ class Tag {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['tag'] = tag;
+
     return data;
   }
 }

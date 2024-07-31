@@ -12,7 +12,8 @@ class RestaurantRepo {
   RestaurantRepo({required this.apiClient});
 
   Future<Response> getProductList(String offset, String type) async {
-    return await apiClient.getData('${AppConstants.productListUri}?offset=$offset&limit=10&type=$type');
+    return await apiClient.getData(
+        '${AppConstants.productListUri}?offset=$offset&limit=10&type=$type');
   }
 
   Future<Response> getAttributeList() async {
@@ -27,16 +28,37 @@ class RestaurantRepo {
     return await apiClient.getData('${AppConstants.subCategoryUri}$parentID');
   }
 
-  Future<Response> updateRestaurant(Restaurant restaurant, List<String> cuisines, XFile? logo, XFile? cover, String token, List<Translation> translation) async {
+  Future<Response> updateRestaurant(
+      Restaurant restaurant,
+      List<String> cuisines,
+      XFile? logo,
+      XFile? cover,
+      String token,
+      List<Translation> translation) async {
     Map<String, String> fields = {};
     fields.addAll(<String, String>{
-      '_method': 'put', 'name': restaurant.name!, 'contact_number': restaurant.phone!, 'schedule_order': restaurant.scheduleOrder! ? '1' : '0',
-      'address': restaurant.address!, 'minimum_order': restaurant.minimumOrder.toString(), 'delivery': restaurant.delivery! ? '1' : '0',
-      'take_away': restaurant.takeAway! ? '1' : '0', 'gst_status': restaurant.gstStatus! ? '1' : '0', 'gst': restaurant.gstCode!,
-      'veg': restaurant.veg.toString(), 'non_veg': restaurant.nonVeg.toString(), 'cuisine_ids': jsonEncode(cuisines), 'order_subscription_active': restaurant.orderSubscriptionActive! ? '1' : '0',
-      'translations': jsonEncode(translation), 'cutlery': restaurant.cutlery! ? '1' : '0', 'instant_order': restaurant.instanceOrder! ? '1' : '0',
+      '_method': 'put',
+      'name': restaurant.name!,
+      'contact_number': restaurant.phone!,
+      'schedule_order': restaurant.scheduleOrder! ? '1' : '0',
+      'address': restaurant.address!,
+      'minimum_order': restaurant.minimumOrder.toString(),
+      'delivery': restaurant.delivery! ? '1' : '0',
+      'take_away': restaurant.takeAway! ? '1' : '0',
+      'gst_status': restaurant.gstStatus! ? '1' : '0',
+      'gst': restaurant.gstCode!,
+      'veg': restaurant.veg.toString(),
+      'non_veg': restaurant.nonVeg.toString(),
+      'cuisine_ids': jsonEncode(cuisines),
+      'order_subscription_active':
+          restaurant.orderSubscriptionActive! ? '1' : '0',
+      'translations': jsonEncode(translation),
+      'cutlery': restaurant.cutlery! ? '1' : '0',
+      'instant_order': restaurant.instanceOrder! ? '1' : '0',
     });
-    if(restaurant.minimumShippingCharge != null && restaurant.perKmShippingCharge != null && restaurant.maximumShippingCharge != null) {
+    if (restaurant.minimumShippingCharge != null &&
+        restaurant.perKmShippingCharge != null &&
+        restaurant.maximumShippingCharge != null) {
       fields.addAll(<String, String>{
         'minimum_delivery_charge': restaurant.minimumShippingCharge.toString(),
         'maximum_delivery_charge': restaurant.maximumShippingCharge.toString(),
@@ -44,62 +66,88 @@ class RestaurantRepo {
       });
     }
     return apiClient.postMultipartData(
-      AppConstants.restaurantUpdateUri, fields, [MultipartBody('logo', logo), MultipartBody('cover_photo', cover)], [],
+      AppConstants.restaurantUpdateUri,
+      fields,
+      [MultipartBody('logo', logo), MultipartBody('cover_photo', cover)],
+      [],
     );
   }
 
-  Future<Response> addProduct(Product product, XFile? image, bool isAdd, String tags) async {
+  Future<Response> addProduct(
+      Product product, XFile? image, bool isAdd, String tags) async {
     Map<String, String> fields = {};
     fields.addAll(<String, String>{
-      'price': product.price.toString(), 'discount': product.discount.toString(),
-      'discount_type': product.discountType!, 'category_id': product.categoryIds![0].id!,
+      'price': product.price.toString(),
+      'discount': product.discount.toString(),
+      'discount_type': product.discountType!,
+      'category_id': product.categoryIds![0].id!,
       'available_time_starts': product.availableTimeStarts!,
-      'available_time_ends': product.availableTimeEnds!, 'veg': product.veg.toString(),
-      'translations': jsonEncode(product.translations), 'tags': tags, 'maximum_cart_quantity': product.maxOrderQuantity.toString(),
+      'available_time_ends': product.availableTimeEnds!,
+      'veg': product.veg.toString(),
+      'translations': jsonEncode(product.translations),
+      'tags': tags,
+      'maximum_cart_quantity': product.maxOrderQuantity.toString(),
       'options': jsonEncode(product.variations),
+      'stock_type':
+          product.stockType ?? 'unlimited', // Adicione stock_type aqui
     });
     String addon = '';
-    for(int index=0; index<product.addOns!.length; index++) {
-      addon = '$addon${index == 0 ? product.addOns![index].id : ',${product.addOns![index].id}'}';
+    for (int index = 0; index < product.addOns!.length; index++) {
+      addon =
+          '$addon${index == 0 ? product.addOns![index].id : ',${product.addOns![index].id}'}';
     }
-    fields.addAll(<String, String> {'addon_ids': addon});
-    if(product.categoryIds!.length > 1) {
-      fields.addAll(<String, String> {'sub_category_id': product.categoryIds![1].id!});
+    fields.addAll(<String, String>{'addon_ids': addon});
+    if (product.categoryIds!.length > 1) {
+      fields.addAll(
+          <String, String>{'sub_category_id': product.categoryIds![1].id!});
     }
-    if(!isAdd) {
-      fields.addAll(<String, String> {'_method': 'put', 'id': product.id.toString()});
+    if (!isAdd) {
+      fields.addAll(
+          <String, String>{'_method': 'put', 'id': product.id.toString()});
     }
     return apiClient.postMultipartData(
-      isAdd ? AppConstants.addProductUri : AppConstants.updateProductUri, fields, [MultipartBody('image', image)], [],
+      isAdd ? AppConstants.addProductUri : AppConstants.updateProductUri,
+      fields,
+      [MultipartBody('image', image)],
+      [],
     );
   }
 
   Future<Response> deleteProduct(int? productID) async {
-    return await apiClient.postData('${AppConstants.deleteProductUri}?id=$productID', {"_method": "delete"});
+    return await apiClient.postData(
+        '${AppConstants.deleteProductUri}?id=$productID',
+        {"_method": "delete"});
   }
 
   Future<Response> getRestaurantReviewList(int? restaurantID) async {
-    return await apiClient.getData('${AppConstants.restaurantReviewUri}?restaurant_id=$restaurantID');
+    return await apiClient.getData(
+        '${AppConstants.restaurantReviewUri}?restaurant_id=$restaurantID');
   }
 
   Future<Response> getProductReviewList(int? productID) async {
-    return await apiClient.getData('${AppConstants.productReviewUri}/$productID');
+    return await apiClient
+        .getData('${AppConstants.productReviewUri}/$productID');
   }
 
   Future<Response> updateProductStatus(int? productID, int status) async {
-    return await apiClient.getData('${AppConstants.updateProductStatusUri}?id=$productID&status=$status');
+    return await apiClient.getData(
+        '${AppConstants.updateProductStatusUri}?id=$productID&status=$status');
   }
 
-  Future<Response> updateRecommendedProductStatus(int? productID, int status) async {
-    return await apiClient.getData('${AppConstants.updateProductRecommendedUri}?id=$productID&status=$status');
+  Future<Response> updateRecommendedProductStatus(
+      int? productID, int status) async {
+    return await apiClient.getData(
+        '${AppConstants.updateProductRecommendedUri}?id=$productID&status=$status');
   }
 
   Future<Response> addSchedule(Schedules schedule) async {
-    return await apiClient.postData(AppConstants.addSchedule, schedule.toJson());
+    return await apiClient.postData(
+        AppConstants.addSchedule, schedule.toJson());
   }
 
   Future<Response> deleteSchedule(int? scheduleID) async {
-    return await apiClient.postData('${AppConstants.deleteSchedule}$scheduleID', {"_method": "delete"});
+    return await apiClient.postData(
+        '${AppConstants.deleteSchedule}$scheduleID', {"_method": "delete"});
   }
 
   Future<Response> getCuisineList() async {
@@ -107,12 +155,16 @@ class RestaurantRepo {
   }
 
   Future<Response> getProductDetails(int productId) async {
-    return await apiClient.getData('${AppConstants.productDetailsUri}/$productId');
+    return await apiClient
+        .getData('${AppConstants.productDetailsUri}/$productId');
   }
 
   Future<Response> updateAnnouncement(int status, String announcement) async {
-    Map<String, String> fields = {'announcement_status': status.toString(), 'announcement_message': announcement, '_method': 'put'};
+    Map<String, String> fields = {
+      'announcement_status': status.toString(),
+      'announcement_message': announcement,
+      '_method': 'put'
+    };
     return await apiClient.postData(AppConstants.announcementUri, fields);
   }
-
 }
